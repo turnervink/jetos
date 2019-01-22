@@ -1,4 +1,3 @@
-
 /*
 *
 *	The Kernel
@@ -121,8 +120,7 @@ void uart_init(void)
 	memory_write(UART0_LCRH, (1 << 4) | (1 << 5) | (1 << 6));
 
 	// Mask all interrupts.
-	memory_write(UART0_IMSC, (1 << 1) | (1 << 4) | (1 << 5) | (1 << 6) |
-	                       (1 << 7) | (1 << 8) | (1 << 9) | (1 << 10));
+	memory_write(UART0_IMSC, (1 << 1) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8) | (1 << 9) | (1 << 10));
 
 	// Enable UART0, receive & transfer part of UART.
 	memory_write(UART0_CR, (1 << 0) | (1 << 8) | (1 << 9));
