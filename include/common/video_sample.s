@@ -1,5 +1,5 @@
 /*
-*  Video Sample 
+*  Video Sample
 *
 *	From here (+ a few modifications):
 *   https://github.com/mmuszkow/NoOsBootstrap/tree/master/arm
@@ -7,7 +7,7 @@
 */
 
 
-@ The bootloader will print text to UART and display 
+@ The bootloader will print text to UART and display
 @ white "NO OS" bitmap on video output
 
 @ I chose Raspberry Pi cause it's very popular and
@@ -46,7 +46,7 @@ _video_sample:
 
     @ draw "NO OS" text
     bl vc_draw_no_os_bmp
-    
+
 	pop {pc}
 
 .vc_init_fail:
@@ -74,7 +74,7 @@ halt:
 
 .macro wait, count, reg0 = r1
     mov  \reg0, \count
-1001: 
+1001:
     sub \reg0, #1
     cmp \reg0, #0
     bne 1001b
@@ -109,7 +109,7 @@ uart0_puts:
     char   .req r2
     dr     .req r3
     status .req r4
-    ldr dr,     =UART0_DR 
+    ldr dr,     =UART0_DR
     ldr status, =UART0_FR
 .putc_loop:
     ldr r0, [status]    @ wait for UART0 to be ready
@@ -143,7 +143,7 @@ mb0_c8_write:
 .mb0_full:
     ldr status, [mailbox, #0x18]
     tst status, #0x80000000  @ mailbox full flag
-    bne .mb0_full 
+    bne .mb0_full
     add message, #8          @ channel 8
     str message, [mailbox, #0x20] @ write addr
     sub message, #8
@@ -164,7 +164,7 @@ mb0_c8_read:
 
     ldr mailbox, =MBOX0
 .mb0_empty:
-    ldr status, [mailbox, #0x18] 
+    ldr status, [mailbox, #0x18]
     tst status, #0x40000000  @ mailbox empty flag
     bne .mb0_empty
 
@@ -173,7 +173,7 @@ mb0_c8_read:
     teq r0, #8
     bne .mb0_empty
 
-    ldr r0, [message, #4] 
+    ldr r0, [message, #4]
     .unreq message
     .unreq mailbox
     .unreq status
