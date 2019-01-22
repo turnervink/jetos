@@ -34,10 +34,3 @@ enum
     UART0_ITOP   = (UART0_BASE + 0x88),
     UART0_TDR    = (UART0_BASE + 0x8C),
 };
-
-void uart_init(void);
-void uart_putc(uint8_t);
-uint8_t uart_getc();
-uint32_t memory_read(uint32_t);
-void memory_write(uint32_t, uint32_t );
-void delay(int32_t);
