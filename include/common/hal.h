@@ -1,6 +1,6 @@
 #include <stddef.h>
 #include <stdint.h>
-#include "kernel.h"
+#include "../kernel/kernel.h"
 
 void hal_io_serial_init();
 void hal_io_serial_putc(type serial_id, uint8_t character);

@@ -5,7 +5,7 @@
 */
 #include <stddef.h>
 #include <stdint.h>
-#include "kernel.h"
+#include "../../include/kernel/kernel.h"
 
 void uart_init(void);
 void uart_putc(uint8_t);

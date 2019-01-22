@@ -1,6 +1,6 @@
 #include <stddef.h>
 #include <stdint.h>
-#include "kernel.h"
+#include "../../include/common/hal.h"
 
 void hal_io_serial_init()
 {
