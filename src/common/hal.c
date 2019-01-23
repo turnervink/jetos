@@ -7,7 +7,7 @@ static void uart_init(void);
 static void uart_putc(uint8_t);
 static uint8_t uart_getc();
 static uint32_t memory_read(uint32_t);
-static void memory_write(uint32_t, uint32_t );
+static void memory_write(uint32_t, uint32_t);
 static void delay(int32_t);
 
 void hal_io_serial_init()
@@ -18,6 +18,12 @@ void hal_io_serial_init()
 void hal_io_serial_putc(uint8_t character)
 {
   uart_putc(character);
+}
+
+void hal_io_serial_puts(uint8_t str[], int len)
+{
+  int i;
+  for (i = 0; i < len; i++) hal_io_serial_putc(str[i]);
 }
 
 uint8_t hal_io_serial_getc()
