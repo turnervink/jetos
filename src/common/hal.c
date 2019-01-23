@@ -20,10 +20,10 @@ void hal_io_serial_putc(uint8_t character)
   uart_putc(character);
 }
 
-void hal_io_serial_puts(uint8_t str[], int len)
+void hal_io_serial_puts(uint8_t *str)
 {
-  int i;
-  for (i = 0; i < len; i++) hal_io_serial_putc(str[i]);
+  uint8_t *c;
+  for (c = str; *c != '\0'; c++) uart_putc(*c);
 }
 
 uint8_t hal_io_serial_getc()
