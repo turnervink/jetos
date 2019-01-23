@@ -19,16 +19,16 @@ _bootloader:
     cmp r1, #2
     bne halt
 
-	ldr r4, =__stack_start			/* Set up SP */
+	ldr r4, =__stack_end 			/* Set up SP */
 	mov sp, r4
 
-	ldr r4, =__bss_start			/* Init BSS */
+	ldr r4, =__bss_start			/* Fill BSS with Zeroes */
 	ldr r9, =__bss_end
 	mov r5, #0
 
 next_word:
 	cmp r4, r9
-	bgt end_bss_init
+	bge end_bss_init
 	stmia r4!, {r5}
 	b next_word
 
@@ -40,4 +40,3 @@ end_bss_init:
 halt:						/* Kernel should not return, but in case it does */
     wfe @ low-power mode
     b halt
-		

@@ -17,7 +17,7 @@ void main(uint32_t r0, uint32_t r1, uint32_t atags)
 	_video_sample();
 
 	hal_io_serial_init();
-	hal_io_serial_puts("    Hello, world!\r\n", 19); // Add left padding of 4 spaces due to memory read issue
+	hal_io_serial_puts("Hello, world!\r\n", 15);
 
 	while (1) hal_io_serial_putc(hal_io_serial_getc());
 }
