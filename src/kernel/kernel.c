@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include "../../include/kernel/kernel.h"
 #include "../../include/common/hal.h"
+#include "../../include/common/add.h"
 
 void _video_sample(void);
 
