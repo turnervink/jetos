@@ -22,6 +22,8 @@
 
 _video_sample:
 	push {lr}
+		mov r5, r0
+		mov r6, r1
 
     @ set Video Controller resolution to 640x480x16bit
     @ 16-bit, cause the 8-bit depth needs a palette
@@ -184,10 +186,10 @@ mb0_c8_read:
 @ r0 - fb address
 vc_draw_no_os_bmp:
     fb    .req r0
-    white .req r1
-    ldr white, =#0xFFFFFFFF
-	ldr r2, =#282150
-	add fb, r2
+    white .req r6
+    @ ldr white, r6
+	@ ldr r2, =#282150
+	add fb, r5
 	str white, [fb, #0]
 	str white, [fb, #4]
 	str white, [fb, #32]
