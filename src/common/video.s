@@ -15,14 +15,14 @@
 @ that can be easily programmed via mailbox interface
 
 .section .text
-.globl _graphics_init
+.globl _video_init
 .globl _draw_pixel
 .align 2
 
 @@@@@@@@@@@@@@ START @@@@@@@@@@@@@
 
 @ initializes the video controller
-_graphics_init:
+_video_init:
 	push {lr}
     @ set Video Controller resolution to 640x480x16bit
     @ 16-bit, cause the 8-bit depth needs a palette

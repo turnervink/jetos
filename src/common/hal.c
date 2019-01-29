@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "../../include/common/hal.h"
 #include "../../include/kernel/uart.h"
+#include "../../include/common/graphics.h"
 
 static void uart_init(void);
 static void uart_putc(uint8_t);
@@ -33,12 +34,14 @@ uint8_t hal_io_serial_getc()
 
 void hal_io_video_init()
 {
-
+  graphics_init();
 }
+
 void hal_io_video_putpixel(uint32_t x, uint32_t y, uint32_t color)
 {
-
+  put_pixel(x, y, color);
 }
+
 void hal_io_video_putc(uint32_t x, uint32_t y, uint32_t color, uint8_t character)
 {
 
