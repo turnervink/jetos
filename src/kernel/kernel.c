@@ -19,13 +19,14 @@ void main(uint32_t r0, uint32_t r1, uint32_t atags)
 
 	hal_io_video_init();
 
-	// Draw some lines
-	int i;
-	for (i = 0; i < DISPLAY_WIDTH; i++)
-		hal_io_video_putpixel(i, 15, 0xFFFFFFFF);
+	// Fill the screen
+	int i, j;
 
-	for (i = 0; i < DISPLAY_HEIGHT; i++)
-		hal_io_video_putpixel(20, i, 0xFFFFFFFF);
+	for (i = 0; i < DISPLAY_HEIGHT; i++) {
+		for (j = 0; i < DISPLAY_WIDTH; j++) {
+			hal_io_video_putpixel(j, i, 0x111111);
+		}
+	}
 
 	while (1) hal_io_serial_putc(hal_io_serial_getc());
 }
