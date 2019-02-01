@@ -48,11 +48,21 @@ void hal_io_video_putc(uint32_t x, uint32_t y, uint32_t color, uint8_t character
   int i, j;
   for (i = 0; i < 10; i++) {
 		for (j = 0; j < 20; j++) {
-			if (alpha[character - 65][i][j] == 1) {
-				hal_io_video_putpixel(j + x, i + y, color);
+			if (alpha[character - 33][i][j] == 1) {
+				put_pixel(j + x, i + y, color);
 			}
 		}
 	}
+}
+
+void hal_io_video_puts(uint8_t *str, uint32_t row, uint32_t color) {
+  uint8_t *c;
+  int offset = 0;
+
+  for (c = str; *c != '\0'; c++) {
+    hal_io_video_putc(offset, row, color, *c);
+    offset += CHAR_WIDTH;
+  }
 }
 
 /*
