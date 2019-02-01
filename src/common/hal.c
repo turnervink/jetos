@@ -3,6 +3,7 @@
 #include "../../include/common/hal.h"
 #include "../../include/kernel/uart.h"
 #include "../../include/common/graphics.h"
+#include "../../include/common/alpha.h"
 
 static void uart_init(void);
 static void uart_putc(uint8_t);
@@ -44,7 +45,14 @@ void hal_io_video_putpixel(uint32_t x, uint32_t y, uint32_t color)
 
 void hal_io_video_putc(uint32_t x, uint32_t y, uint32_t color, uint8_t character)
 {
-
+  int i, j;
+  for (i = 0; i < 10; i++) {
+		for (j = 0; j < 20; j++) {
+			if (alpha[character - 65][i][j] == 1) {
+				hal_io_video_putpixel(j + x, i + y, color);
+			}
+		}
+	}
 }
 
 /*
