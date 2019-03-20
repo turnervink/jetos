@@ -147,3 +147,24 @@ static void bindump(uint8_t * file) {
 	
 	shell_input();
 }
+
+static void testprogram() {
+	char buffer[500];
+	HANDLE fHandle = sdCreateFile("testprogram.bin", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	
+	if (fHandle != 0) {
+		uint32_t bytesRead;
+
+		if ((sdReadFile(fHandle, &buffer[0], 500, &bytesRead, 0) == true))  {
+			buffer[bytesRead-1] = '\0';
+			
+			// TODO Run loaded binary
+		} else {
+		  printf_video("Failed to load test program");
+		}
+
+		sdCloseHandle(fHandle);
+	}
+	
+	shell_input();
+}
