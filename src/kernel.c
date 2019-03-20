@@ -27,24 +27,12 @@ void sd_card_fs_demo();
 **/
 void main(uint32_t r0, uint32_t r1, uint32_t atags){
 
-	//Init
 	kernel_init();
 	input_output_init();
+	sdInitCard (&printf_serial, &printf_serial, true);
 
-	// sd_card_fs_demo();   //<<-- Uncomment this to show File System/SD Card demo
-
-	//Welcome Msg Video
 	hal_io_video_puts( "\n\r\n\rWelcome to jetOS\n\r", 3, VIDEO_COLOR_GREEN );
 	hal_io_serial_puts( SerialA, "\n\r\n\rWelcome to jetOS Zero\n\r" );
-
-	/* uint8_t c;
-
-	while (1){
-		c = hal_io_serial_getc( SerialA );
-
-		printf_video( "%c", c );  //<<--- We also have printfs
-		printf_serial( "%c", c );
-	} */
 	
 	shell_init();
 
