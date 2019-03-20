@@ -60,6 +60,8 @@ static void shell_input() {
 		cat(args[1]);
 	} else if (strcmp(args[0], "bindump") == 0) {
 		bindump(args[1]);
+	} else if (strcmp(args[0], "testprogram") == 0) {
+		testprogram();
 	}
 	else {
 		printf_serial("\r\nUnknown command\r\n");
@@ -150,7 +152,7 @@ static void bindump(uint8_t * file) {
 
 static void testprogram() {
 	char buffer[500];
-	HANDLE fHandle = sdCreateFile("testprogram.bin", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE fHandle = sdCreateFile("app.bin", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	
 	if (fHandle != 0) {
 		uint32_t bytesRead;
@@ -158,7 +160,8 @@ static void testprogram() {
 		if ((sdReadFile(fHandle, &buffer[0], 500, &bytesRead, 0) == true))  {
 			buffer[bytesRead-1] = '\0';
 			
-			// TODO Run loaded binary
+			int ret = ((int(*)(void))buffer)();
+			printf_video("Process exited with code %d", ret);
 		} else {
 		  printf_video("Failed to load test program");
 		}
