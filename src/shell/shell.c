@@ -58,6 +58,8 @@ static void shell_input() {
 		cd(args[1]);
 	} else if (strcmp(args[0], "cat") == 0) {
 		cat(args[1]);
+	} else if (strcmp(args[0], "bindump") == 0) {
+		bindump(args[1]);
 	}
 	else {
 		printf_serial("\r\nUnknown command\r\n");
@@ -112,6 +114,30 @@ static void cat(uint8_t * file) {
 		if ((sdReadFile(fHandle, &buffer[0], 500, &bytesRead, 0) == true))  {
 			buffer[bytesRead-1] = '\0';
 			printf_video("%s", &buffer[0]);
+		} else {
+		  printf_video("Failed to read file %s", file);
+		}
+
+		sdCloseHandle(fHandle);
+	}
+	
+	shell_input();
+}
+
+static void bindump(uint8_t * file) {
+	char buffer[500];
+	HANDLE fHandle = sdCreateFile(file, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	
+	if (fHandle != 0) {
+		uint32_t bytesRead;
+
+		if ((sdReadFile(fHandle, &buffer[0], 500, &bytesRead, 0) == true))  {
+			buffer[bytesRead-1] = '\0';
+			
+			int i;
+			for (i = 0; i < 500; i++) {
+				printf_video("%u ", buffer[i]);
+			}
 		} else {
 		  printf_video("Failed to read file %s", file);
 		}
