@@ -38,6 +38,7 @@ static void shell_input() {
 	
 	input[i+1] = '\0';
 	
+	printf_serial("Got command: %s", input);
 	printf_serial("\r\n");
 	printf_video("\r\n");
 	
@@ -78,13 +79,14 @@ static void sysinfo() {
 	shell_input();
 }
 
-static void ls() {
+static void ls() {	
 	HANDLE fh;
 	FIND_DATA find;
 	uint8_t dir[1024];
 	
-	strcat(currentDir, dir);
-	strcat(dir, "*");
+	strcpy(dir, currentDir);
+	strcat(dir, "*.*");
+	printf_serial("Listing dir: %s", dir);
 	
 	fh = sdFindFirstFile(dir, &find);	
 
@@ -99,9 +101,11 @@ static void ls() {
 	shell_input();
 }
 
-static void cd(uint8_t * dir) {\
-	strcat(currentDir, "\\");
+static void cd(uint8_t * dir) {
 	strcat(currentDir, dir);
+	strcat(currentDir, "\\");
+	
+	printf_serial("New currentDir: %s", currentDir);
 	
 	shell_input();
 }
