@@ -16,7 +16,10 @@ void shell_init() {
 
 static void shell_input() {
 	uint8_t input[1024];
+	uint8_t * args[1024];
+	uint8_t * token;
 	uint8_t c;
+	uint8_t seps[] = " ";
 	int i = 0;
 	
 	hal_io_video_puts("\n\r$ ", 2, VIDEO_COLOR_GREEN);
@@ -38,11 +41,22 @@ static void shell_input() {
 	printf_serial("\r\n");
 	printf_video("\r\n");
 	
-	if (strcmp(input, "sysinfo") == 0) {
+	// Split up entered command into single word arguments
+	i = 0;
+	token = strtok(input, seps);
+    while(token != NULL) {
+		args[i] = token;
+        token = strtok(NULL, seps);
+		i++;
+    }
+	
+	if (strcmp(args[0], "sysinfo") == 0) {
 		sysinfo();
-	} else if (strcmp(input, "ls") == 0) {
+	} else if (strcmp(args[0], "ls") == 0) {
 		ls();
-	}		
+	} else if (strcmp(args[0], "cd") == 0) {
+		cd(args[1]);
+	}
 	else {
 		printf_serial("\r\nUnknown command\r\n");
 		printf_video("\r\nUnknown command\r\n");
@@ -76,5 +90,12 @@ static void ls() {
 
 	sdFindClose(fh);
 
+	shell_input();
+}
+
+static void cd(uint8_t * dir) {\
+	strcat(currentDir, "\\");
+	strcat(currentDir, dir);
+	
 	shell_input();
 }
