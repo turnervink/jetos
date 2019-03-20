@@ -533,5 +533,14 @@ font.lines[3] = (VideoLine){
 //Add entry to character to font map + mark it as implemented
 char_font_map['$'] = font;
 
+// -- PERIOD --
+font.num_lines = 1;
+font.lines[0] = (VideoLine){
+	.init = (VideoXY){ .x=BOX_WIDTH/2, .y=0 },
+	.end = (VideoXY){ .x=BOX_WIDTH/2, .y=-BOX_HEIGHT/8 }
+};
+
+char_font_map['.'] = font;
+
 
 }
