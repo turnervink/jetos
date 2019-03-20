@@ -170,6 +170,23 @@ void fonts_init(void){
 
 	//Add entry to character to font map + mark it as implemented
 	char_font_map['I'] = font;
+	
+	// -- J --
+    font.num_lines = 3;
+    font.lines[0] = (VideoLine){
+        .init = (VideoXY){ .x=0, .y=-BOX_HEIGHT/4 },
+        .end = (VideoXY){.x=0, .y=0 }
+    };
+    font.lines[1] = (VideoLine){
+        .init = (VideoXY){ .x=0, .y=0 },
+        .end = (VideoXY){ .x=BOX_WIDTH, .y=0 }
+    };
+    font.lines[2] = (VideoLine){
+        .init = (VideoXY){ .x=BOX_WIDTH, .y=0 },
+        .end = (VideoXY){ .x=BOX_WIDTH, .y=-BOX_HEIGHT }
+    };        
+    
+    char_font_map['J'] = font;
 
 	// -- K --
 	font.num_lines  = 3;

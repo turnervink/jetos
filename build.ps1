@@ -10,24 +10,23 @@ Write-Host "Building..."
 	-mcpu=cortex-a7 `
 	-fpic `
 	-ffreestanding `
-  --specs=nosys.specs `
+	--specs=nosys.specs `
 	-std=gnu99 `
 	-T linker.ld  `
 	src/hal/hal_io_asm.s `
 	src/boot.s  `
-  src/drivers/smartstart/rpi-SmartStart.s `
+	src/drivers/smartstart/rpi-SmartStart.s `
 	src/drivers/stdio/emb-stdio.c `
-  src/drivers/sdcard/SDCard.c `
-  src/drivers/smartstart/rpi-SmartStart.c `
+	src/drivers/sdcard/SDCard.c `
+	src/drivers/smartstart/rpi-SmartStart.c `
 	src/hal/hal_io.c src/kernel.c `
 	src/hal/fonts.c `
-  -o output/kernel.elf `
+	src/shell/shell.c `
+	-o output/kernel.elf `
 	-O0	`
 	-lc -lm -lg -lgcc
 
-
 & 'C:\Program Files (x86)\GNU Tools ARM Embedded\8 2018-q4-major\bin\arm-none-eabi-objcopy.exe' kernel.elf -O binary kernel.img
-
 
 Write-Host "Success"
 

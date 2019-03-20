@@ -11,6 +11,7 @@
 
 #include "kernel.h"
 #include "hal/hal.h"
+#include "shell/shell.h"
 #include "string.h"
 
 #include "drivers/stdio/emb-stdio.h"			// Needed for printf
@@ -26,26 +27,26 @@ void sd_card_fs_demo();
 **/
 void main(uint32_t r0, uint32_t r1, uint32_t atags){
 
-  //Init
-  kernel_init();
-  input_output_init();
+	//Init
+	kernel_init();
+	input_output_init();
 
-  sd_card_fs_demo();   //<<-- Uncomment this to show File System/SD Card demo
+	// sd_card_fs_demo();   //<<-- Uncomment this to show File System/SD Card demo
 
-  //Welcome Msg Video
-  hal_io_video_puts( "\n\r\n\rWelcome to MiniOS Pi Zero\n\r", 3, VIDEO_COLOR_GREEN );
-  hal_io_serial_puts( SerialA, "\n\r\n\rWelcome to MiniOS Pi Zero\n\r" );
-  hal_io_video_puts( "\n\r$ ", 2, VIDEO_COLOR_GREEN );
-  hal_io_serial_puts( SerialA, "\n\r$ " );
+	//Welcome Msg Video
+	hal_io_video_puts( "\n\r\n\rWelcome to jetOS\n\r", 3, VIDEO_COLOR_GREEN );
+	hal_io_serial_puts( SerialA, "\n\r\n\rWelcome to jetOS Zero\n\r" );
 
-  uint8_t c;
+	/* uint8_t c;
 
 	while (1){
-    c = hal_io_serial_getc( SerialA );
+		c = hal_io_serial_getc( SerialA );
 
-    printf_video( "%c", c );  //<<--- We also have printfs
-    printf_serial( "%c", c );
-  }
+		printf_video( "%c", c );  //<<--- We also have printfs
+		printf_serial( "%c", c );
+	} */
+	
+	shell_init();
 
 }
 
@@ -54,11 +55,11 @@ void main(uint32_t r0, uint32_t r1, uint32_t atags){
 */
 void kernel_init(void){
 
-  hal_io_init();
-  //console_init();
-  //system_calls_init();
-  //scheduler_init();
-  //faults_init();
+	hal_io_init();
+	//console_init();
+	//system_calls_init();
+	//scheduler_init();
+	//faults_init();
 
 }
 
@@ -66,29 +67,28 @@ void kernel_init(void){
 * Initializes All IO
 */
 void input_output_init(void){
-  uint32_t video_init_res = HAL_FAILED;
+	uint32_t video_init_res = HAL_FAILED;
 
-#ifdef VIDEO_PRESENT
-  video_init_res = hal_io_video_init();
-#endif
+	#ifdef VIDEO_PRESENT
+		video_init_res = hal_io_video_init();
+	#endif
 
-#ifdef SERIAL_PRESENT
-  hal_io_serial_init();
-#endif
-//NOTE: PAST THIS POINT WE CAN USE printf
-//      (printf needs both serial and video inits to be called first)
+	#ifdef SERIAL_PRESENT
+		hal_io_serial_init();
+	#endif
+	
+	//NOTE: PAST THIS POINT WE CAN USE printf
+	//      (printf needs both serial and video inits to be called first)
+	if ( video_init_res == HAL_SUCCESS )
+		sys_info( "Video Initialized\n\r" );
+	else
+		sys_info( "Video Init Failed [x]\n\r" );
 
-  if ( video_init_res == HAL_SUCCESS )
-    sys_info( "Video Initialized\n\r" );
-  else
-    sys_info( "Video Init Failed [x]\n\r" );
-
-    sys_info( "Serial Initialized\n\r" );
+	sys_info( "Serial Initialized\n\r" );
 }
 
 void sys_info( uint8_t* msg ){
-  printf_video( msg );
-  printf_serial( msg );
+	printf_serial( msg );
 }
 
 /////////////////////////////////////////////////////////////////
@@ -100,32 +100,31 @@ void DisplayDirectory(const char*);
 
 
 void sd_card_fs_demo(){
-  printf_serial("\n\n");
-  sdInitCard (&printf_serial, &printf_serial, true);
+	printf_serial("\n\n");
+	sdInitCard (&printf_serial, &printf_serial, true);
 
-  /* Display root directory */
-  printf_serial("\n\nDirectory (/): \n");
-  DisplayDirectory("\\*.*");
+	/* Display root directory */
+	printf_serial("\n\nDirectory (/): \n");
+	DisplayDirectory("\\*.*");
 
-  printf_serial("\n");
-  printf_serial("Opening Alice.txt \n");
+	printf_serial("\n");
+	printf_serial("Opening Alice.txt \n");
 
-  HANDLE fHandle = sdCreateFile("Alice.txt", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-  if (fHandle != 0) {
-    uint32_t bytesRead;
+	HANDLE fHandle = sdCreateFile("Alice.txt", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	if (fHandle != 0) {
+		uint32_t bytesRead;
 
-    if ((sdReadFile(fHandle, &buffer[0], 500, &bytesRead, 0) == true))  {
-        buffer[bytesRead-1] = '\0';  ///insert null char
-        printf_serial("File Contents: %s", &buffer[0]);
-    }
-    else{
-      printf_serial("Failed to read" );
-    }
+		if ((sdReadFile(fHandle, &buffer[0], 500, &bytesRead, 0) == true))  {
+			buffer[bytesRead-1] = '\0';  ///insert null char
+			printf_serial("File Contents: %s", &buffer[0]);
+		} else {
+		  printf_serial("Failed to read" );
+		}
 
-    // Close the file
-    sdCloseHandle(fHandle);
+		// Close the file
+		sdCloseHandle(fHandle);
 
-  }
+	}
 
 }
 
